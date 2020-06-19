@@ -6,11 +6,15 @@ class ShaderProgram
 {
 	int vertexShaderID;
 	int fragmentShaderID;
+	int geometryShaderID;
 	int programID;
 public:
 	ShaderProgram(const char* vertexShaderSourcePath, const char* fragmentShaderSourcePath);
+	ShaderProgram(const char* vertexShaderSourcePath, const char* fragmentShaderSourcePath, const char* geometryShaderSource);
+
 	virtual ~ShaderProgram();
 	int createShaderProgram();
+	int createShaderProgramWithGeometry();
 	unsigned int loadShader(const char* ShaderSourcePath,unsigned int type);
 	void useProgram();
 	void stopProgram();

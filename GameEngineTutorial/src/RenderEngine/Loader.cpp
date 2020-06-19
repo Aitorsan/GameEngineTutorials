@@ -17,6 +17,28 @@ RawModel Loader::loadToVao(const vector<float>& positions, const vector<float>&t
 	return RawModel(vaoId,indices.size());
 }
 
+RawModel Loader::loadToVao(const vector<glm::vec3>& positions, const vector<float>&textureCoords, const vector<unsigned int>& indices)
+{
+	unsigned int vaoId = createVAO();
+	bindIndicesBuffer(indices);
+	GLuint VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(glm::vec3), positions.data(), GL_DYNAMIC_DRAW);
+
+	//vertexdata
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	vbos.push_back(VBO);
+	storeDataInAttributeList(1, 2, textureCoords);
+	unbindVAO();
+
+	return RawModel(vaoId, indices.size());
+}
+
+
+
 unsigned int Loader::load2DTexture(const char * filename, unsigned int spot)
 {
 	stbi_set_flip_vertically_on_load(true);

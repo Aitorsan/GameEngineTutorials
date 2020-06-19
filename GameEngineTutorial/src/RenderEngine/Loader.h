@@ -1,6 +1,9 @@
 #pragma once
 #include "../Models/RawModel.h"
 #include <vector>
+#include <glm/glm.hpp>
+
+
 class Loader
 {
 	std::vector<unsigned int> vaos;
@@ -10,6 +13,8 @@ class Loader
 public:
 	~Loader();
 	RawModel loadToVao(const std::vector<float>& positions, const std::vector<float>& textureCoords, const std::vector<unsigned int>& indices);
+	RawModel loadToVao(const std::vector<glm::vec3>& positions, const std::vector<float>& textureCoords, const std::vector<unsigned int>& indices);
+
 	unsigned int load2DTexture(const char* filename,unsigned int spot);
 
 private:

@@ -4,7 +4,7 @@ class Renderer
 {
 public:
 	Renderer();
-	void prepare();
+	void clear();
 
 	void render(TexturedModel & model);
 };

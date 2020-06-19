@@ -5,9 +5,9 @@ Renderer::Renderer()
 {
 	glEnable(GL_DEPTH_TEST);
 }
-void Renderer::prepare()
+void Renderer::clear()
 {
-	glClearColor(0.8, 0.7, 0.2, 1.0f);
+	glClearColor(0.4, 0.3, 0.3, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

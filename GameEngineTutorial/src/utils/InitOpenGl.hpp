@@ -98,19 +98,16 @@ inline void InitializeGLFW()
 inline GLFWwindow* getWindow(int width, int height, const char* title) throw()
 {
 	InitializeGLFW();
-	GLFWwindow *window = glfwCreateWindow(800, 400, title, nullptr, nullptr);
+	GLFWwindow *window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 
 	if (!window) { glfwTerminate(); throw std::runtime_error("window creation failed"); }
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-	glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) mutable
-	{
-			glfwGetFramebufferSize(window, &width, &height);
-			glViewport(0, 0, width, height);
-	});
+
 	//create context for opengl
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
 	glewExperimental = GL_TRUE;
+
+
 	//initiaize glew
 	if (glewInit() != GLEW_OK) throw std::runtime_error("failed glewInit");
 	std::cout << glGetString(GL_VERSION) << std::endl;

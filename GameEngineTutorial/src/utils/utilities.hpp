@@ -77,7 +77,7 @@ inline glm::mat4 createTransformationMatrix(const glm::vec3& translation, const 
 		vector * S * R * T
 	*/
 	transforMationMatrix = glm::translate(transforMationMatrix, translation);
-	if (rotation.x != 0 || rotation.y != 0 || rotation.z != 0)
+	if (rotation.x != 0.f || rotation.y != 0.f || rotation.z != 0.f)
 	{
 		transforMationMatrix = glm::rotate(transforMationMatrix, glm::radians(rotation.x), glm::vec3(1, 0, 0));
 		transforMationMatrix = glm::rotate(transforMationMatrix, glm::radians(rotation.y), glm::vec3(0, 1, 0));
@@ -86,4 +86,15 @@ inline glm::mat4 createTransformationMatrix(const glm::vec3& translation, const 
 	transforMationMatrix = glm::scale(transforMationMatrix, scale);
 	
 	return transforMationMatrix;
+}
+
+
+
+template <typename T>
+glm::vec<2, T> screenToNormalizeDeviceCoordinates(T xpos, T ypos, int screenWidth, int screenHeight)
+{
+	xpos  = (T(2) * xpos) / screenWidth - T(1);
+	ypos = T(1) - (T(2.0) * ypos) / screenHeight;
+
+	return { xpos,ypos };
 }

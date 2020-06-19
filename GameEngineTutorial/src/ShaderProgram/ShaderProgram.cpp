@@ -50,7 +50,17 @@ ShaderProgram::ShaderProgram(const char* vertexShaderSourcePath, const char* fra
 	fragmentShaderID = loadShader(fragmentShaderSourcePath, GL_FRAGMENT_SHADER);
 	programID = createShaderProgram();
 }
- 
+ShaderProgram::ShaderProgram(const char* vertexShaderSourcePath, const char* fragmentShaderSourcePath, const char* geometryShaderSource)
+	: vertexShaderID{}
+	, fragmentShaderID{}
+	, geometryShaderID{}
+	, programID{}
+{
+	vertexShaderID = loadShader(vertexShaderSourcePath, GL_VERTEX_SHADER);
+	fragmentShaderID = loadShader(fragmentShaderSourcePath, GL_FRAGMENT_SHADER);
+	geometryShaderID = loadShader(geometryShaderSource, GL_GEOMETRY_SHADER);
+	programID = createShaderProgramWithGeometry();
+}
 
 ShaderProgram::~ShaderProgram()
 {
@@ -104,7 +114,6 @@ void ShaderProgram::setMatrix(const char* name, const glm::mat4 & matrix) const
 }
 
 
-
 unsigned int ShaderProgram::loadShader(const char* shaderSourcePath,unsigned int type)
 {
 	unsigned int shaderID{ };
@@ -139,6 +148,26 @@ unsigned int ShaderProgram::loadShader(const char* shaderSourcePath,unsigned int
 		DebugShaderCompileStatus(shaderID, shaderType.data());
 	}
 	return shaderID;
+}
+int ShaderProgram::createShaderProgramWithGeometry()
+{
+	int ShaderProgram = glCreateProgram();
+
+	glAttachShader(ShaderProgram, vertexShaderID);
+	glAttachShader(ShaderProgram, fragmentShaderID);
+	glAttachShader(ShaderProgram, geometryShaderID);
+
+	glLinkProgram(ShaderProgram);
+
+	glDetachShader(ShaderProgram, vertexShaderID);
+	glDetachShader(ShaderProgram, fragmentShaderID);
+	glDetachShader(ShaderProgram, geometryShaderID);
+
+	glDeleteShader(vertexShaderID);
+	glDeleteShader(fragmentShaderID);
+	glDeleteShader(geometryShaderID);
+
+	return ShaderProgram;
 }
 
  int ShaderProgram::createShaderProgram()
